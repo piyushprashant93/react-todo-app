@@ -6,6 +6,7 @@ import Searchbar from "./Searchbar"
 import Header from "./Header"
 const NoteList = () => {
     const [noResult, setNoResults] = useState(false)
+    const [search, setSearch] = useState("")
     const [note, setNote] = useState('');
     const [notes, setNotes] = useState([])
     const handleDelete = (id) => {
@@ -29,19 +30,25 @@ const NoteList = () => {
 
     }
     const handleSearch = (e) => {
-        const search = e.target.value.toLowerCase();
-        const filteredNotes = notes.filter(note => note.text.toLowerCase().includes(search))
-        if (filteredNotes.length > 0) {
-            setNotes(filteredNotes)
+        let value = e.target.value
+        setSearch(e.target.value)
+        if (value.length > 0) {
+            let filteredNotes = notes.filter(note => note.text.toLowerCase().includes(search.toLowerCase()))
+            if (filteredNotes.length > 0) {
+                setNoResults(false)
+            }else{
+                setNoResults(true)
+            }
+        }else{
             setNoResults(false)
-        } else {
-            setNoResults(true)
         }
+        
     }
     const renderNotes = () => {
-        if (!noResult) {
-            return notes.map(note => <Notes key={note.id} note={note} onDelete={()=>handleDelete(note.id)} />)
-        } 
+        let filteredNotes = notes.filter(note => note.text.toLowerCase().includes(search.toLowerCase()))
+       
+        return filteredNotes.map(note => <Notes key={note.id} note={note} onDelete={()=>handleDelete(note.id)} />)
+
     }
     return (
         <div className="bg-white dark:bg-black h-screen">

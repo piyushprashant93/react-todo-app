@@ -9,7 +9,7 @@ const NoteList = () => {
     const [note, setNote] = useState('');
     const [notes, setNotes] = useState([])
     const handleDelete = (id) => {
-
+     
         let newNotes = notes.filter(note => note.id !== id)
         setNotes(newNotes)
 
@@ -40,7 +40,7 @@ const NoteList = () => {
     }
     const renderNotes = () => {
         if (!noResult) {
-            return notes.map(note => <Notes key={note.id} note={note} handleDelete={handleDelete} />)
+            return notes.map(note => <Notes key={note.id} note={note} onDelete={()=>handleDelete(note.id)} />)
         } 
     }
     return (
